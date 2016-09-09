@@ -18,3 +18,5 @@ Route::get('/', function () {
 Route::auth();
 
 Route::get('/home', 'HomeController@index');
+Route::get('/invoice', 'InvoiceController@index');
+Route::get('/invoice/add', 'InvoiceController@add');
