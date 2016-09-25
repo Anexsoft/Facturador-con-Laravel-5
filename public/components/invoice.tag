@@ -72,7 +72,7 @@
         </tfoot>
     </table>
 
-    <button onclick={__save} class="btn btn-default btn-lg btn-block">
+    <button if={detail.length > 0 && client_id > 0} onclick={__save} class="btn btn-default btn-lg btn-block">
         Guardar
     </button>
 
@@ -80,6 +80,7 @@
         var self = this;
 
         // Detalle del comprobante
+        self.client_id = 0;
         self.detail = [];
         self.iva = 0;
         self.subTotal = 0;
@@ -124,7 +125,7 @@
                 detail: self.detail
             }, function(r){
                 if(r.response) {
-                    window.location.href = baseUrl('home');
+                    window.location.href = baseUrl('invoice');
                 } else {
                     alert('Ocurrio un error');
                 }

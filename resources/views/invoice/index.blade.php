@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
+
 <div class="container">
     <div class="row">
         <div class="col-md-12">
@@ -21,20 +22,19 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php for($i = 1; $i <= 10; $i++): ?>
-                    <?php
-                        $total    = 1180 * $i;
-                        $subTotal = $total / 1.18;
-                        $iva      = $total - $subTotal;
-                    ?>
+                    @foreach ($model as $m)
                     <tr>
-                        <td>Client {{$i}}</td>
-                        <td class="text-right">{{number_format($iva, 2)}}</td>
-                        <td class="text-right">{{number_format($subTotal, 2)}}</td>
-                        <td class="text-right">{{number_format($total, 2)}}</td>
+                        <td>
+                            <a href="{{url('invoice/detail/' . $m->id )}}">
+                                {{ $m->client->name }}
+                            </a>
+                        </td>
+                        <td class="text-right">$ {{number_format($m->iva, 2)}}</td>
+                        <td class="text-right">$ {{number_format($m->subTotal, 2)}}</td>
+                        <td class="text-right">$ {{number_format($m->total, 2)}}</td>
                         <td class="text-right">02/02/2016</td>
                     </tr>
-                    <?php endfor; ?>
+                    @endforeach
                 </tbody>
             </table>
         </div>

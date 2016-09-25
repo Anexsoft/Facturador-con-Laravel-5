@@ -27,7 +27,18 @@ class InvoiceController extends Controller
 
     public function index()
     {
-        return view('invoice.index');
+        return view(
+            'invoice.index', [
+                'model' => $this->_invoiceRepo->getAll()
+            ]
+        );
+    }
+
+    public function detail($id)
+    {
+        return view('invoice.detail', [
+            'model' => $this->_invoiceRepo->get($id)
+        ]);
     }
 
     public function add()

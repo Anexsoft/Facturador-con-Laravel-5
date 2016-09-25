@@ -13,6 +13,14 @@ class InvoiceRepository {
         $this->model = new Invoice();
     }
 
+    public function get($id) {
+        return $this->model->find($id);
+    }
+
+    public function getAll() {
+        return $this->model->orderBy('id', 'desc')->get();
+    }
+
     public function save($data) {
         $return = (object)[
             'response' => false
