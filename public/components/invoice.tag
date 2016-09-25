@@ -72,6 +72,10 @@
         </tfoot>
     </table>
 
+    <button onclick={__save} class="btn btn-default btn-lg btn-block">
+        Guardar
+    </button>
+
     <script>
         var self = this;
 
@@ -111,6 +115,22 @@
             __calculate();
         }
 
+        __save() {
+            $.post(baseUrl('invoice/save'), {
+                client_id: self.client_id,
+                iva: self.iva,
+                subTotal: self.subTotal,
+                total: self.total,
+                detail: self.detail
+            }, function(r){
+                if(r.response) {
+                    window.location.href = baseUrl('home');
+                } else {
+                    alert('Ocurrio un error');
+                }
+            }, 'json')
+        }
+
         function __calculate() {
             var total = 0;
 
@@ -133,6 +153,7 @@
                 list: {
                     onClickEvent: function() {
                         var e = client.getSelectedItemData();
+                        self.client_id = e.id;
                         self.ruc = e.ruc;
                         self.address = e.address;
 

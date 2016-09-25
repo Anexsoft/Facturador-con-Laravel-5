@@ -5,20 +5,24 @@ namespace App\Http\Controllers;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request,
     App\Repositories\ClientRepository,
+    App\Repositories\InvoiceRepository,
     App\Http\Requests;
 
 class InvoiceController extends Controller
 {
     private $_clientRepo;
     private $_productRepo;
+    private $_invoiceRepo;
 
     public function __CONSTRUCT(
         ClientRepository $clientRepo,
-        ProductRepository $productRepo
+        ProductRepository $productRepo,
+        InvoiceRepository $invoiceRepo
     )
     {
         $this->_clientRepo = $clientRepo;
         $this->_productRepo = $productRepo;
+        $this->_invoiceRepo = $invoiceRepo;
     }
 
     public function index()
@@ -29,6 +33,28 @@ class InvoiceController extends Controller
     public function add()
     {
         return view('invoice.add');
+    }
+
+    public function save(Request $req)
+    {
+        $data = (object)[
+            'iva' => $req->input('iva'),
+            'subTotal' => $req->input('subTotal'),
+            'total' => $req->input('total'),
+            'client_id' => $req->input('client_id'),
+            'detail' => []
+        ];
+
+        foreach($req->input('detail') as $d){
+            $data->detail[] = (object)[
+                'product_id' => $d['id'],
+                'quantity'   => $d['quantity'],
+                'unitPrice'  => $d['price'],
+                'total'      => $d['total']
+            ];
+        }
+
+        return $this->_invoiceRepo->save($data);
     }
 
     public function findClient(Request $req)
