@@ -6,7 +6,8 @@ use App\Repositories\ProductRepository;
 use Illuminate\Http\Request,
     App\Repositories\ClientRepository,
     App\Repositories\InvoiceRepository,
-    App\Http\Requests;
+    App\Http\Requests,
+    PDF;
 
 class InvoiceController extends Controller
 {
@@ -39,6 +40,18 @@ class InvoiceController extends Controller
         return view('invoice.detail', [
             'model' => $this->_invoiceRepo->get($id)
         ]);
+    }
+
+    public function pdf($id)
+    {
+        $model = $this->_invoiceRepo->get($id);
+        $invoice_name = sprintf('comprobante-%s.pdf', str_pad ($model->id, 7, '0', STR_PAD_LEFT));
+
+        $pdf = PDF::loadView('invoice.pdf', [
+            'model' => $model
+        ]);
+
+        return $pdf->download($invoice_name);
     }
 
     public function add()
