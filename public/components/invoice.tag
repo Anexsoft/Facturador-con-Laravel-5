@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="col-xs-1">
-            <button onclick={__addProductoToDetail} class="btn btn-primary form-control" id="btn-agregar">
+            <button onclick={__addProductToDetail} class="btn btn-primary form-control" id="btn-agregar">
                 <i class="glyphicon glyphicon-plus"></i>
             </button>
         </div>
@@ -99,7 +99,7 @@
             __calculate();
         }
 
-        __addProductoToDetail() {
+        __addProductToDetail() {
             self.detail.push({
                 id: self.product_id,
                 name: self.product.value,
